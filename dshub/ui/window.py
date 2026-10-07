@@ -9,15 +9,14 @@ import time
 
 from PySide6.QtCore import QEvent, QPointF, QRectF, Qt, QTimer
 from PySide6.QtGui import QAction, QColor, QFont, QIcon, QPainter, QPainterPath, QPen, QPixmap
-from PySide6.QtWidgets import (QApplication, QButtonGroup, QHBoxLayout, QLabel, QMenu, QPushButton,
+from PySide6.QtWidgets import (QApplication, QButtonGroup, QHBoxLayout, QLabel, QMenu,
                                QStackedWidget, QSystemTrayIcon, QVBoxLayout, QWidget)
 
 from dshub.app import SHOW_MESSAGE
 from dshub.core.pads.base import Pad
-from dshub.core.state import Connection, Model
+from dshub.core.state import Connection
 from dshub.ui import theme
 from dshub.ui.acrylic import AcrylicWindow
-from dshub.ui.flat_view import FlatView
 from dshub.ui.glass import paint_dome, paint_dome_gloss
 from dshub.ui.hub import Hub
 from dshub.ui.pages.drivers import DriversPage
@@ -138,26 +137,21 @@ class Toast(QLabel):
 
 
 class EmptyPage(QWidget):
-    def __init__(self, on_drivers, parent: QWidget | None = None) -> None:
+    def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
-        view = FlatView(Model.DS4)
-        view.set_dimmed(True)
-        view.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
-        title = label("Connect a controller", "h1")
+        title = label("No controllers connected", "h1")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        sub = label("Plug in a DualShock 3, DualShock 4 or DualSense with a USB cable, or connect one over "
-                    "Bluetooth. A DualShock 3 needs the DsHidMini driver.", "dim")
-        sub.setWordWrap(True)
-        sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        btn = QPushButton("Drivers & Firmware")
-        btn.clicked.connect(on_drivers)
+        hint = label("Plug one in with USB or pair it over Bluetooth. Missing a driver? See Drivers & Firmware.",
+                     "dim")
+        hint.setWordWrap(True)
+        hint.setAlignment(Qt.AlignmentFlag.AlignCenter)
         lay = QVBoxLayout(self)
         lay.setContentsMargins(60, 0, 60, 60)
-        lay.addWidget(view, 1)
+        lay.addStretch(1)
         lay.addWidget(title)
-        lay.addWidget(sub)
-        lay.addSpacing(8)
-        lay.addWidget(btn, 0, Qt.AlignmentFlag.AlignCenter)
+        lay.addSpacing(6)
+        lay.addWidget(hint)
+        lay.addStretch(1)
 
 
 class PadPages(QStackedWidget):
@@ -263,7 +257,7 @@ class MainWindow(AcrylicWindow):
 
         # ---------------------------------------------------------- pages
         self.stack = QStackedWidget()
-        self.empty = EmptyPage(lambda: self.show_page("drivers"))
+        self.empty = EmptyPage()
         self.pad_pages = PadPages(hub)
         self.drivers = DriversPage(hub)
         self.set_glass_style(hub.settings.get("glass_style", theme.DEFAULT_GLASS_STYLE))
