@@ -2,7 +2,7 @@
 
 **Get any PlayStation controller working on your Windows PC.** DualShock PC Hub makes setting up PlayStation controllers on a PC easy. It shows which drivers your PC is missing and installs the official ones with one click. Then you can see, test and remap every connected controller.
 
-<!-- Demo video: open this file in GitHub's editor and drag the .mp4 onto this line. GitHub uploads it and turns the link into a player. -->
+https://github.com/user-attachments/assets/b9e2aac8-7be1-4040-a083-530e4278f109
 
 | Drivers & Firmware | Settings |
 |---|---|
