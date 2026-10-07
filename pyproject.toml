@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dualshock-pc-hub"
+version = "0.1.0"
+description = "A sleek Windows hub for PlayStation controllers (DS3, DS4, DualSense): live input view, battery, remapping, and one-click driver setup."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "AndreJSLC" }]
+requires-python = ">=3.11"
+dependencies = ["PySide6>=6.7", "hidapi>=0.14"]
+keywords = ["dualshock", "dualsense", "ds3", "ds4", "ds5", "controller", "gamepad", "windows", "dshidmini", "bthps3"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11",
+    "Programming Language :: Python :: 3",
+    "Topic :: Games/Entertainment",
+    "Topic :: System :: Hardware :: Hardware Drivers",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pyinstaller>=6"]
+
+[project.gui-scripts]
+dualshock-pc-hub = "dshub.app:main"
+
+[tool.setuptools.packages.find]
+include = ["dshub*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
